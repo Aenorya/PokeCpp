@@ -29,23 +29,23 @@ int main()
     //ShowMultiDimensionalMap();
     //ShowVector();
     cout << "============PIKACHU=============\n";
-    Pokemon pikachu = Pokemon("Pikachu", "chunky boi", 40);
+    Pokemon pikachu = Pokemon("Pikachu", "chunky boi",PokeType::Electric, 40);
     pikachu.DisplaySumUp();
     cout << "=========================\n";
     pikachu.petName = "Pika Pika";
     pikachu.Hurt(6);
     pikachu.Heal(12);
     pikachu.DisplaySumUp();
-    Ability thunderShock = Ability("Thunder Shock", "Goes bzzzz", 20, 2);
-    Ability gnaw = Ability("Gnaw", "Gnaws", 10);
-    Ability cutie = Ability("Cutie Pie", "2 Cute 2 be true", 10);
+    Ability thunderShock = Ability("Thunder Shock", "Goes bzzzz", 20, 2, PokeType::Electric);
+    Ability gnaw = Ability("Gnaw", "Gnaws", 10, PokeType::Normal);
+    Ability cutie = Ability("Cutie Pie", "2 Cute 2 be true", 10, PokeType::Normal);
     pikachu.LearnAbility(thunderShock);
     pikachu.LearnAbility(gnaw);
     pikachu.LearnAbility(cutie);
 
-    Pokemon stari = Pokemon("Staryu", "A cute starfish", 30);
-    stari.LearnAbility(Ability("Splash", "It's wet", 13));
-    stari.LearnAbility(Ability("Water Jet", "It's wetter", 15));
+    Pokemon stari = Pokemon("Staryu", "A cute starfish",PokeType::Water, 30);
+    stari.LearnAbility(Ability("Splash", "It's wet", 13, PokeType::Water));
+    stari.LearnAbility(Ability("Water Jet", "It's wetter", 15, PokeType::Water));
 
     Battle fight (pikachu, stari);
     fight.StartBattle();

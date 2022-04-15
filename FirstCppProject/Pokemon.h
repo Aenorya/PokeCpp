@@ -2,6 +2,7 @@
 #include <string>
 #include <vector>
 #include "Ability.h"
+#include "PokeType.h"
 class Pokemon
 {
 private:
@@ -11,11 +12,12 @@ private:
 	int mCurrentLifePoints;
 	//Should add Abilities later
 	std::vector<Ability> mAbilities;
+	PokeType mType;
 public:
 	std::string petName;
 	const int MAX_ABILITIES = 4;
 	Pokemon();
-	Pokemon(std::string name, std::string desc, int maxLifePoints);
+	Pokemon(std::string name, std::string desc, PokeType type, int maxLifePoints);
 	//Add constructor with abilities parameter
 
 	~Pokemon();
@@ -36,6 +38,7 @@ public:
 	void Attack(Pokemon& target, int ability);
 
 	void DisplaySumUp();
-
+	bool IsWeakTo(PokeType type);
+	bool IsResistantTo(PokeType type);
 };
 

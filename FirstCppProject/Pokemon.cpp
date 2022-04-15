@@ -11,14 +11,16 @@ Pokemon::Pokemon()
 	petName = "Default";
 	mMaxLifePoints = 1;
 	mCurrentLifePoints = mMaxLifePoints;
+	mType = PokeType::Normal;
 }
-Pokemon::Pokemon(string name, string desc, int maxLifePoints)
+Pokemon::Pokemon(string name, string desc, PokeType type, int maxLifePoints)
 {
 	mName = name;
 	mDescription = desc;
 	petName = mName;
 	mMaxLifePoints = maxLifePoints;
 	mCurrentLifePoints = mMaxLifePoints;
+	mType = type;
 }
 //Add constructor with abilities parameter
 
@@ -123,7 +125,16 @@ Ability Pokemon::GetAbility(int index)
 void Pokemon::Attack(Pokemon& target, int ability)
 {
 	cout << petName << " attacks " << target.petName << " with " << mAbilities[ability].GetName() << endl;
-	target.Hurt(mAbilities[ability].GetDamages());
+	int damages = mAbilities[ability].GetDamages();
+	if (target.IsResistantTo(mAbilities[ability].GetType())) {
+		damages /= 2; // damages = damages / 2;
+		cout << "It's not very effective..\n";
+	}
+	else if (target.IsWeakTo(mAbilities[ability].GetType())) {
+		damages *= 2; //damages = damages *2;
+		cout << "It's very effective!\n";
+	}
+	target.Hurt(damages);
 }
 //Add attack
 
@@ -132,4 +143,38 @@ void Pokemon::DisplaySumUp()
 	cout << petName << " is a " << mName << endl;
 	cout<< "A " << mName << " is " << mDescription << endl;
 	cout << petName << " has " << mCurrentLifePoints << "/" << mMaxLifePoints << " hp.\n";
+}
+
+bool Pokemon::IsWeakTo(PokeType attackType)
+{
+	switch (attackType) {
+	case PokeType::Electric:
+		return mType == PokeType::Water;
+	case PokeType::Fire:
+		return mType == PokeType::Grass;
+	case PokeType::Grass:
+		return mType == PokeType::Water || mType == PokeType::Grass;
+	case PokeType::Ground:
+		return mType == PokeType::Electric || mType == PokeType::Fire;
+	case PokeType::Water:
+		return mType == PokeType::Fire || mType == PokeType::Ground;
+	}
+	return false;
+}
+
+bool Pokemon::IsResistantTo(PokeType attackType)
+{
+	switch (attackType) {
+	case PokeType::Electric:
+		return mType == PokeType::Ground || mType == PokeType::Grass;
+	case PokeType::Fire:
+		return mType == PokeType::Ground || mType == PokeType::Fire;
+	case PokeType::Grass:
+		return mType == PokeType::Fire || mType == PokeType::Grass;
+	case PokeType::Ground:
+		return mType == PokeType::Grass;
+	case PokeType::Water:
+		return mType == PokeType::Grass || mType == PokeType::Water;
+	}
+	return false;
 }
